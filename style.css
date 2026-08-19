@@ -1,0 +1,256 @@
+:root {
+  --bg: #0b0f14;
+  --panel: #121821;
+  --panel-border: #1f2b38;
+  --text: #e7eef5;
+  --text-dim: #8fa3b3;
+  --accent: #4ce0d2;
+  --accent-soft: rgba(76, 224, 210, 0.15);
+  --alert: #ffb454;
+  --font-display: "Space Mono", monospace;
+  --font-body: "Inter", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+}
+
+/* ---------- topbar ---------- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.topbar__eyebrow {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.topbar__title h1 {
+  margin: 4px 0 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.topbar__status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff5c5c;
+  transition: background 0.3s ease;
+}
+
+.dot.ready {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+/* ---------- layout ---------- */
+.layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+  padding: 32px;
+}
+
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.panel__label {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0 0 16px;
+}
+
+/* ---------- player ---------- */
+.player {
+  width: 100%;
+  border-radius: 8px;
+  background: #000;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.hint {
+  margin-top: 12px;
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+/* ---------- painel de escuta (microfone) ---------- */
+.mic-panel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 180px;
+  border-radius: 8px;
+  border: 1px solid var(--panel-border);
+  background: #0e1620;
+  overflow: hidden;
+}
+
+.mic-icon {
+  width: 40px;
+  height: 40px;
+  color: var(--accent);
+  z-index: 2;
+}
+
+.pulse-ring {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  opacity: 0;
+  animation: pulse 2.2s ease-out infinite;
+}
+
+.pulse-ring--delay {
+  animation-delay: 1.1s;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
+.btn {
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn:hover {
+  background: var(--accent);
+  color: #06110f;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------- predictions (barras de confiança) ---------- */
+.predictions {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.prediction-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 48px;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 12px;
+}
+
+.prediction-row__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.prediction-row__bar {
+  height: 8px;
+  border-radius: 4px;
+  background: #0e1620;
+  overflow: hidden;
+  border: 1px solid var(--panel-border);
+}
+
+.prediction-row__fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 0.15s ease;
+}
+
+.prediction-row__fill.above-threshold {
+  background: var(--alert);
+}
+
+/* ---------- action log ---------- */
+.action-log {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--panel-border);
+}
+
+.action-log h3 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+#actionLog {
+  margin: 0;
+  font-family: var(--font-display);
+  color: var(--accent);
+}
+
+/* ---------- footer ---------- */
+.footer {
+  padding: 20px 32px 40px;
+  color: var(--text-dim);
+  font-size: 13px;
+  max-width: 720px;
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Controle por Comandos de Voz — Teachable Machine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar__title">
+      <span class="topbar__eyebrow">Reconhecimento de audio</span>
+      <h1>Controle por Comandos de Voz</h1>
+    </div>
+    <div class="topbar__status" id="modelStatus">
+      <span class="dot" id="statusDot"></span>
+      <span id="statusText">modelo nao carregado</span>
+    </div>
+  </header>
+
+  <main class="layout">
+
+    <!-- Painel esquerdo: player controlado pela voz -->
+    <section class="panel panel--player">
+      <h2 class="panel__label">Player</h2>
+      <video id="player" class="player" loop muted playsinline>
+        <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
+      </video>
+      <p class="hint">Diga "play" para iniciar o video. Diga "pause" para pausar.</p>
+    </section>
+
+    <!-- Painel direito: microfone + leitura do modelo -->
+    <section class="panel panel--scanner">
+      <h2 class="panel__label">Leitura de audio</h2>
+
+      <div class="mic-panel" id="micPanel">
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring pulse-ring--delay"></div>
+        <svg class="mic-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z" stroke="currentColor" stroke-width="1.6" />
+          <path d="M19 11a7 7 0 0 1-14 0M12 18v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        </svg>
+      </div>
+
+      <button id="startBtn" class="btn">Iniciar microfone e modelo</button>
+
+      <div id="predictions" class="predictions">
+        <!-- barras de confiança geradas via JS -->
+      </div>
+
+      <div class="action-log">
+        <h3>Última ação</h3>
+        <p id="actionLog">nenhuma ainda</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Projeto acadêmico — Teachable Machine (audio) + TensorFlow.js. Nenhuma ação é disparada por clique manual: tudo parte da predição do modelo a partir do som captado pelo microfone.</p>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/speech-commands@0.5.4/dist/speech-commands.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
