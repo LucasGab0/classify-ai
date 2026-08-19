@@ -1,27 +1,19 @@
-/* A biblioteca speech-commands exige URL absoluta (http://... completa)
-   para o metadata e o modelo — caminho relativo tipo "./metadata.json"
-   não é aceito, mesmo rodando num servidor local. Por isso calculamos
-   a URL absoluta da pasta atual em tempo de execução. */
+
 const BASE_URL = new URL(".", window.location.href).href;
 
 const CONFIG = {
   // Caminho da pasta onde estão model.json e metadata.json
-  // (gerados pelo Teachable Machine, exportação "TensorFlow.js")
   MODEL_URL: BASE_URL + "model.json",
   METADATA_URL: BASE_URL + "metadata.json",
 
   // Só dispara ação quando a confiança do comando passar disso.
-  // Evita ação disparada por ruído / predição instável.
-  CONFIDENCE_THRESHOLD: 0.85,
+  // Evita ação disparada por ruído ou reconhecimento errado.
+  CONFIDENCE_THRESHOLD: 0.80,
 
-  // Tempo mínimo (ms) entre duas ações disparadas, mesmo que o
-  // modelo continue reconhecendo o mesmo comando repetidamente.
+
   ACTION_COOLDOWN_MS: 1200,
 
-  // Mapeia o nome da classe (exatamente como foi nomeada no
-  // Teachable Machine) para uma ação a ser executada.
-  // A classe de fundo (ex: "Background Noise") não deve entrar
-  // aqui — sem entrada no mapa, nenhuma ação é disparada para ela.
+
   ACTIONS: {
     Play: (video) => {
       video.play();
@@ -80,13 +72,12 @@ async function init() {
   statusText.textContent = "ouvindo...";
   startBtn.remove();
 
-  // listen() mantém o microfone escutando continuamente e chama o
-  // callback a cada nova janela de áudio analisada pelo modelo.
+  
   recognizer.listen(
     (result) => handleResult(result.scores, classLabels),
     {
       includeSpectrogram: true,
-      probabilityThreshold: 0.75, // limiar interno da lib para dar um novo evento
+      probabilityThreshold: 0.75, 
       invokeCallbackOnNoiseAndUnknown: true,
       overlapFactor: 0.5,
     }
@@ -135,23 +126,17 @@ function handleResult(scores, classLabels) {
   maybeTriggerAction(top.className, top.probability);
 }
 
-/* ============================================================
-   AÇÃO AUTOMÁTICA
-   Aqui é onde a predição vira consequência real no sistema.
-   ============================================================ */
+
 function maybeTriggerAction(className, probability) {
   const action = CONFIG.ACTIONS[className];
-  if (!action) return; // classe de fundo / sem ação mapeada não faz nada
-
+  if (!action) return; 
   if (probability < CONFIG.CONFIDENCE_THRESHOLD) return;
 
   const now = Date.now();
   const sameClassAsBefore = className === lastTriggeredClass;
   const withinCooldown = now - lastActionAt < CONFIG.ACTION_COOLDOWN_MS;
 
-  // Evita repetir a mesma ação em loop enquanto o comando continua
-  // sendo reconhecido, mas ainda permite trocar de ação rapidamente
-  // se o usuário disser outro comando.
+  
   if (sameClassAsBefore && withinCooldown) return;
 
   const message = action(video);
