@@ -27,9 +27,9 @@
     <section class="panel panel--player">
       <h2 class="panel__label">Player</h2>
       <video id="player" class="player" loop muted playsinline>
-        <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
+        <source src="sample-video.mp4" type="video/mp4" />
       </video>
-      <p class="hint">Diga "play" para iniciar o video. Diga "pause" para pausar.</p>
+      <p class="hint">Diga "Play" para iniciar o video. Diga "Pausar" para pausar.</p>
     </section>
 
     <!-- Painel direito: microfone + leitura do modelo -->
@@ -63,7 +63,7 @@
     <p>Projeto acadêmico — Teachable Machine (audio) + TensorFlow.js. Nenhuma ação é disparada por clique manual: tudo parte da predição do modelo a partir do som captado pelo microfone.</p>
   </footer>
 
-  
+  <!-- TensorFlow.js + biblioteca de comandos de voz usada pelo Teachable Machine -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/speech-commands@0.5.4/dist/speech-commands.min.js"></script>
   <script src="script.js"></script>
