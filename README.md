@@ -18,8 +18,7 @@ usuário.
 
 ## Demonstração
 
-<!-- Substituam por um GIF ou print da aplicação funcionando -->
-`[GIF/print aqui]`
+![Demonstração do projeto](assets/gif-demo.gif)
 
 ## Sobre o modelo
 
